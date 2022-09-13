@@ -1,3 +1,5 @@
+import 'package:food_app/utils/constants.dart';
+
 class Category {
   Category({
     required this.id,
@@ -16,7 +18,8 @@ class Category {
   get fullImagePath {
     if (imagePath != null) {
       final tempPath = imagePath!.replaceAll(r'\', r'/');
-      return "https://forfoodapp.herokuapp.com/" + tempPath;
+      // return Uri.https(baseUrl, tempPath);
+      return "https://forfoodapp.herokuapp.com/$tempPath";
     }
   }
 

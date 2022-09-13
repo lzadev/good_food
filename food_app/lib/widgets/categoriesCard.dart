@@ -19,16 +19,17 @@ class CategoriesCardWidget extends StatelessWidget {
       required this.titleSize})
       : super(key: key);
 
-  final String urlImage;
+  final String? urlImage;
   final String title;
   final double imageWidth;
   final double imageHeigth;
   final double titleSize;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(25),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(25),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Color.fromARGB(255, 247, 247, 247),
@@ -40,11 +41,14 @@ class CategoriesCardWidget extends StatelessWidget {
         Center(
             child: Column(
           children: [
-            Image.network(
-              urlImage.toString(),
-              width: imageWidth,
-              height: imageHeigth,
-            ),
+            urlImage == null
+                ? Image.asset("assets/images/image-not-found.png",
+                    width: imageWidth, height: imageHeigth)
+                : FadeInImage.assetNetwork(
+                    placeholder: "assets/images/loading.gif",
+                    image: urlImage.toString(),
+                    width: imageWidth,
+                    height: imageHeigth),
             const SizedBox(height: 10.0),
             Text(title,
                 style: GoogleFonts.robotoSlab(

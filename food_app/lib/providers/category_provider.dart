@@ -1,3 +1,4 @@
+import 'package:food_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:food_app/models/categories_response.dart';
 import '../models/category.dart';
 
 class CategoryProvider extends ChangeNotifier {
-  final String _baseUrl = "forfoodapp.herokuapp.com";
+  final String _baseUrl = baseUrl;
 
   List<Category> categories = [];
 
@@ -20,11 +21,13 @@ class CategoryProvider extends ChangeNotifier {
     return reponse.body;
   }
 
-  getCategories() async {
+  Future<List<Category>> getCategories() async {
     final jsonData = await _getJsonData("api/categories");
 
     final categoriesResponse = CategoryResponse.fromJson(jsonData);
     categories = categoriesResponse.data;
     notifyListeners();
+
+    return categoriesResponse.data;
   }
 }
