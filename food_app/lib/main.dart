@@ -12,27 +12,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget splashScreen = SplashScreenView(
       navigateRoute: const Home(),
-      duration: 5000,
-      imageSize: 200,
-      imageSrc: "assets/images/goodfood.png",
-      text: "GOOD FOOD",
-      textType: TextType.ColorizeAnimationText,
-      textStyle:
-          GoogleFonts.robotoSlab(fontWeight: FontWeight.bold, fontSize: 40.0),
-      colors: const [
-        Color.fromARGB(255, 255, 183, 0),
-        Color.fromARGB(255, 234, 47, 41),
-        Color.fromARGB(255, 72, 34, 13)
-      ],
+      duration: 3000,
+      imageSize: 70,
+      imageSrc: "assets/images/forfood.png",
       backgroundColor: Colors.white,
     );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Food App',
-      builder: (context, child) {
-        return ScrollConfiguration(behavior: MyBehavior(), child: const Home());
-      },
+      // builder: (context, child) {
+      //   return ScrollConfiguration(behavior: MyBehavior(), child: splashScreen);
+      // },
       home: splashScreen,
     );
   }
