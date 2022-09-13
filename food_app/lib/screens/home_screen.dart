@@ -2,18 +2,26 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_app/models/category.dart';
+import 'package:food_app/providers/category_provider.dart';
 import 'package:food_app/utils/colors.dart';
 import 'package:food_app/icons/icon_class_icons.dart';
 import 'package:food_app/widgets/categoriesCard.dart';
 import 'package:food_app/widgets/suggestionsCard_widget.dart';
 import 'package:food_app/widgets/welcome_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
+
+    final List<Category> categories = categoryProvider.categories;
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: _customAppBar(),
@@ -57,40 +65,21 @@ class Home extends StatelessWidget {
               const SizedBox(
                 height: 20.0,
               ),
-              GridView.count(
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 20,
-                // padding: const EdgeInsets.all(8),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                physics: const ScrollPhysics(),
-                children: const [
-                  CategoriesCardWidget(
-                      urlImage: 'assets/images/sushi.svg',
-                      title: "Plato Oriental",
-                      imageWidth: 70.0,
-                      imageHeigth: 70.0,
-                      titleSize: 15.0),
-                  CategoriesCardWidget(
-                      urlImage: 'assets/images/food1.svg',
-                      title: "Plato Criollo",
-                      imageWidth: 70.0,
-                      imageHeigth: 70.0,
-                      titleSize: 15.0),
-                  CategoriesCardWidget(
-                      urlImage: 'assets/images/food1.svg',
-                      title: "Plato Criollo",
-                      imageWidth: 70.0,
-                      imageHeigth: 70.0,
-                      titleSize: 15.0),
-                  CategoriesCardWidget(
-                      urlImage: 'assets/images/sushi.svg',
-                      title: "Plato Oriental",
-                      imageWidth: 70.0,
-                      imageHeigth: 70.0,
-                      titleSize: 15.0),
-                ],
-              ),
+              GridView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: categories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CategoriesCardWidget(
+                        urlImage: categories[index].fullImagePath,
+                        title: categories[index].name,
+                        imageWidth: 70.0,
+                        imageHeigth: 70.0,
+                        titleSize: 15.0);
+                  }),
               const SizedBox(
                 height: 20.0,
               ),

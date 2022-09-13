@@ -27,6 +27,7 @@ class CategoriesCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(8.0),
       padding: EdgeInsets.all(25),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -39,8 +40,8 @@ class CategoriesCardWidget extends StatelessWidget {
         Center(
             child: Column(
           children: [
-            SvgPicture.asset(
-              urlImage,
+            Image.network(
+              urlImage.toString(),
               width: imageWidth,
               height: imageHeigth,
             ),
