@@ -19,6 +19,7 @@ class Category {
     if (imagePath != null) {
       final tempPath = imagePath!.replaceAll(r'\', r'/');
       // return Uri.https(baseUrl, tempPath);
+      // return "http://10.0.0.2:3000/$tempPath";
       return "https://forfoodapp.herokuapp.com/$tempPath";
     }
   }

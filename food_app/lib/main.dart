@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/providers/category_provider.dart';
+import 'package:food_app/screens/categories_screen.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,10 @@ class MyApp extends StatelessWidget {
       //   return ScrollConfiguration(behavior: MyBehavior(), child: splashScreen);
       // },
       home: splashScreen,
+      routes: {
+        // '/': (context) => const Home(),
+        '/categories': (context) => const CategoriesScreen(),
+      },
     );
   }
 }

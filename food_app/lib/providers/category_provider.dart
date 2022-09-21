@@ -16,13 +16,15 @@ class CategoryProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String endpoint) async {
-    final url = Uri.https(_baseUrl, endpoint);
+    // final url = Uri.http("10.0.0.2:3000", endpoint);
+    final url = Uri.http(_baseUrl, endpoint);
     final reponse = await http.get(url);
     return reponse.body;
   }
 
   Future<List<Category>> getCategories() async {
     final jsonData = await _getJsonData("api/categories");
+    // final jsonData = await _getJsonData("/api/categories");
 
     final categoriesResponse = CategoryResponse.fromJson(jsonData);
     categories = categoriesResponse.data;

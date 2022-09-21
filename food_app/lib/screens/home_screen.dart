@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_app/models/category.dart';
@@ -12,6 +10,8 @@ import 'package:food_app/widgets/welcome_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/custom_behavior.dart';
+
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -20,14 +20,13 @@ class Home extends StatelessWidget {
     final CategoryProvider categoryProvider =
         Provider.of<CategoryProvider>(context, listen: true);
 
-    final List<Category> categories = categoryProvider.categories;
-
     return ScrollConfiguration(
-      behavior: MyBehavior(),
+      behavior: CustomBehavior(),
       child: Scaffold(
         backgroundColor: bgColor,
         appBar: _customAppBar(),
         body: ListView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           children: [
             Column(
@@ -53,17 +52,33 @@ class Home extends StatelessWidget {
                       titlePlate: "Filete de Res en Salsa de Hongos",
                       persons: "8 personas",
                       time: "45 minutos",
-                      firstColor: Color.fromARGB(213, 167, 194, 94),
-                      secondColor: Color.fromARGB(255, 116, 144, 55),
+                      firstColor: const Color.fromARGB(213, 167, 194, 94),
+                      secondColor: const Color.fromARGB(255, 116, 144, 55),
                     ),
                   ),
                 ),
                 const SizedBox(
                   height: 40.0,
                 ),
-                Text("Categorias",
-                    style: GoogleFonts.robotoSlab(
-                        fontWeight: FontWeight.bold, fontSize: 18.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Categorias",
+                        style: GoogleFonts.robotoSlab(
+                            fontWeight: FontWeight.bold, fontSize: 18.0)),
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.pushNamed(context, "/categories"),
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                      ),
+                      child: Text("Ver mas...",
+                          style: GoogleFonts.robotoSlab(
+                              fontWeight: FontWeight.normal, fontSize: 14.0)),
+                    )
+                  ],
+                ),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -71,7 +86,7 @@ class Home extends StatelessWidget {
                     future: categoryProvider.getCategories(),
                     builder: (_, AsyncSnapshot<List<Category>> snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
+                        return const Center(
                           widthFactor: 10,
                           heightFactor: 5,
                           child: CircularProgressIndicator(
@@ -79,9 +94,11 @@ class Home extends StatelessWidget {
                                   AlwaysStoppedAnimation<Color>(primaryColor)),
                         );
                       } else {
+                        final categories = snapshot.data!.take(4).toList();
+
                         return GridView.builder(
                             shrinkWrap: true,
-                            physics: const ScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -138,10 +155,10 @@ class Home extends StatelessWidget {
   }
 }
 
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-}
+// class CustomBehavior extends ScrollBehavior {
+//   @override
+//   Widget buildOverscrollIndicator(
+//       BuildContext context, Widget child, ScrollableDetails details) {
+//     return child;
+//   }
+// }

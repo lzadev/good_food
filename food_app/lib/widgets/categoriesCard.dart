@@ -1,13 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../icons/icon_class_icons.dart';
 
 class CategoriesCardWidget extends StatelessWidget {
   const CategoriesCardWidget(
@@ -39,22 +34,26 @@ class CategoriesCardWidget extends StatelessWidget {
       width: 250,
       child: Stack(children: [
         Center(
-            child: Column(
-          children: [
-            urlImage == null
-                ? Image.asset("assets/images/image-not-found.png",
-                    width: imageWidth, height: imageHeigth)
-                : FadeInImage.assetNetwork(
-                    placeholder: "assets/images/loading.gif",
-                    image: urlImage.toString(),
-                    width: imageWidth,
-                    height: imageHeigth),
-            const SizedBox(height: 10.0),
-            Text(title,
+          child: Column(
+            children: [
+              urlImage == null
+                  ? Image.asset("assets/images/image-not-found.png",
+                      width: imageWidth, height: imageHeigth)
+                  : FadeInImage(
+                      placeholder:
+                          const AssetImage("assets/images/image-not-found.png"),
+                      image: NetworkImage(urlImage.toString()),
+                      width: imageWidth,
+                      height: imageHeigth),
+              const SizedBox(height: 10.0),
+              Text(
+                title,
                 style: GoogleFonts.robotoSlab(
-                    fontWeight: FontWeight.bold, fontSize: titleSize))
-          ],
-        ))
+                    fontWeight: FontWeight.bold, fontSize: titleSize),
+              )
+            ],
+          ),
+        )
       ]),
     );
   }
